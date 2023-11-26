@@ -19,4 +19,25 @@
 	}
 </script>
 
-<input {disabled} bind:value {onkeydown} {oninput} />
+<input class="input" {disabled} bind:value {onkeydown} {oninput} />
+
+<style lang="scss">
+	@use '$styles' as s;
+
+	.input {
+		font-size: 1.2rem;
+		text-align: center;
+		border-radius: s.$radius;
+		border: 1px solid s.$default-primary;
+		padding: 0.25rem;
+
+		&:focus {
+			outline: 4px solid s.$soft-primary;
+		}
+
+		&:disabled {
+			border-color: s.$default-surface;
+			cursor: not-allowed;
+		}
+	}
+</style>
