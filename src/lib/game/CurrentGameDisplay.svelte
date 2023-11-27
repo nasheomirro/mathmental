@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tweened } from 'svelte/motion';
 	import GameInput from './GameInput.svelte';
 	import type { Game } from './game.svelte';
 
@@ -9,6 +10,9 @@
 	let { game } = $props<Props>();
 
 	let guess = $state('');
+	let timerValue = tweened(1, { duration: 6500 });
+
+	timerValue.set(0);
 
 	function updateGuess(value: string) {
 		guess = value;
@@ -18,16 +22,19 @@
 		const outcome = game.answer(parseFloat(value));
 		// reset our guess if we enter the next round
 		if (outcome) {
-			guess = '';
+			reset();
 		}
 	}
 
 	export function reset() {
+		timerValue.set(1, { duration: 0 });
+		timerValue.set(0);
 		guess = '';
 	}
 </script>
 
 <div class="container">
+	<div class="timer" style={`transform: scaleX(${$timerValue})`} />
 	<p class="score">score: {game.score}</p>
 	<p class="question">{game.round?.question}</p>
 	<GameInput
@@ -46,6 +53,15 @@
 		flex-direction: column;
 		align-items: center;
 		margin-bottom: 1.6rem;
+	}
+
+	.timer {
+		align-self: flex-start;
+		width: 100%;
+		height: 2px;
+		background-color: s.$default-primary;
+		border-radius: s.$radius;
+		margin-bottom: 2rem;
 	}
 
 	.score {

@@ -14,7 +14,7 @@ export class Game {
 
 		this.#lose_timeout = setTimeout(() => {
 			this.state = 'lost';
-		}, 8000);
+		}, 6500);
 	}
 
 	start() {
