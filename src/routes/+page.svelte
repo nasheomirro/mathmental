@@ -41,7 +41,7 @@
 
 	.container {
 		max-width: 640px;
-		padding: 10rem 1rem 5rem;
+		padding: 0 1rem 5rem;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;

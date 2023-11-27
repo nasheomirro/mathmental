@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tweened } from 'svelte/motion';
-	import type { GameState, Round } from './types';
+	import type { GameState, Mode, Round } from './types';
 	import { generateRound } from './utils';
 	import { highscore } from '$lib/highscore/index.svelte';
 	import GameButton from '$lib/game/GameButton.svelte';
@@ -8,13 +8,17 @@
 	import { tick } from 'svelte';
 	import { scale } from 'svelte/transition';
 	import { playAudio } from '$lib/audio';
+	import { modes } from './config';
+	import GameModeChange from './GameModeChange.svelte';
+	import ModeChangeButton from './ModeChangeButton.svelte';
 
+	let mode = $state<Mode>(modes.rabbit);
 	let gameState = $state<GameState>('idle');
 	let score = $state<number>(0);
 	let round = $state<Round | null>(null);
 	let answer = $state<string>('');
 
-	const timeRemaining = tweened(1, { duration: 6500 });
+	const timeRemaining = tweened(1);
 	let lose_timeout: number | undefined;
 	let gameInput: GameInput;
 
@@ -51,9 +55,9 @@
 		round = generateRound(score);
 
 		timeRemaining.set(1, { duration: 0 });
-		timeRemaining.set(0);
+		timeRemaining.set(0, { duration: mode.duration });
 
-		lose_timeout = setTimeout(lose, 6500);
+		lose_timeout = setTimeout(lose, mode.duration);
 	}
 </script>
 
@@ -65,12 +69,25 @@
 
 	{#if gameState === 'idle'}
 		<div class="start-display">
+			<GameModeChange
+				{mode}
+				onmodechange={(newMode) => {
+					mode = newMode;
+				}}
+			/>
 			<GameButton onclick={start}>start</GameButton>
 		</div>
 	{/if}
 
 	{#if gameState === 'playing' || gameState === 'lost'}
 		<div class="playing-display">
+			<ModeChangeButton
+				{mode}
+				{gameState}
+				onclick={() => {
+					gameState = 'idle';
+				}}
+			/>
 			<div class="timer" style={`transform: scaleX(${$timeRemaining})`} />
 			<span class="score">score: {score}</span>
 			<span class="question">{round?.question}</span>
@@ -99,10 +116,12 @@
 
 	.container {
 		margin: 1.5rem auto;
-		padding: 8rem 0;
 		max-width: 400px;
+		padding-top: 7rem;
+		min-height: 30rem;
 		display: flex;
 		flex-direction: column;
+		justify-content: start;
 		align-items: center;
 		position: relative;
 		gap: 1.6rem;
@@ -133,6 +152,9 @@
 	}
 
 	.start-display {
+		gap: 1.2rem;
+		width: 100%;
+
 		.highscore {
 			font-size: 1rem;
 			margin-bottom: 1.2rem;
