@@ -21,7 +21,7 @@ export const highscore = new HighScore();
 function getScore() {
 	const rawVal = localStorage.getItem(storageKey);
 	if (rawVal) {
-		parseInt(rawVal);
+		return parseInt(rawVal);
 	}
 	// no highscore was saved
 	return 0;

@@ -2,12 +2,10 @@
 	type Props = {
 		value: string;
 		disabled?: boolean;
-		oninput: (value: string) => void;
 		onenter: (value: string) => void;
 	};
 
-	let { value, disabled, onenter, oninput: _oninput } = $props<Props>();
-
+	let { value, disabled, onenter } = $props<Props>();
 	let inputRef: HTMLInputElement;
 
 	function onkeydown(e: KeyboardEvent) {
@@ -16,17 +14,12 @@
 		}
 	}
 
-	function oninput(e: Event) {
-		const target = e.currentTarget as HTMLInputElement;
-		_oninput(target.value);
-	}
-
 	export function focus() {
 		inputRef.focus();
 	}
 </script>
 
-<input bind:this={inputRef} class="input" {disabled} bind:value {onkeydown} {oninput} />
+<input bind:this={inputRef} class="input" bind:value {onkeydown} {disabled} />
 
 <style lang="scss">
 	@use '$styles' as s;
