@@ -7,6 +7,7 @@
 	import GameInput from './GameInput.svelte';
 	import { tick } from 'svelte';
 	import { scale } from 'svelte/transition';
+	import { playAudio } from '$lib/audio';
 
 	let gameState = $state<GameState>('idle');
 	let score = $state<number>(0);
@@ -18,6 +19,7 @@
 	let gameInput: GameInput;
 
 	async function start() {
+		playAudio('start');
 		gameState = 'playing';
 		score = 0;
 		newRound();
@@ -27,6 +29,7 @@
 
 	function submit() {
 		if (parseInt(answer) === round?.answer) {
+			playAudio('ping');
 			score += 1;
 			newRound();
 		} else {
@@ -35,6 +38,7 @@
 	}
 
 	function lose() {
+		playAudio('lose');
 		gameState = 'lost';
 		timeRemaining.set(0, { duration: 100 });
 		highscore.attemptBreak(score);
