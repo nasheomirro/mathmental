@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { tweened } from 'svelte/motion';
 	import GameInput from './GameInput.svelte';
 	import type { Game } from './game.svelte';
 
@@ -9,10 +8,11 @@
 
 	let { game } = $props<Props>();
 
-	let guess = $state('');
-	let timerValue = tweened(1, { duration: 6500 });
+	let timeRemaining = $derived(game.timeRemaining);
 
-	timerValue.set(0);
+	let guess = $state('');
+
+	let gameInput: GameInput;
 
 	function updateGuess(value: string) {
 		guess = value;
@@ -27,17 +27,17 @@
 	}
 
 	export function reset() {
-		timerValue.set(1, { duration: 0 });
-		timerValue.set(0);
 		guess = '';
+		gameInput.focus();
 	}
 </script>
 
 <div class="container">
-	<div class="timer" style={`transform: scaleX(${$timerValue})`} />
+	<div class="timer" style={`transform: scaleX(${$timeRemaining})`} />
 	<p class="score">score: {game.score}</p>
 	<p class="question">{game.round?.question}</p>
 	<GameInput
+		bind:this={gameInput}
 		disabled={game.state !== 'playing'}
 		value={guess}
 		oninput={updateGuess}

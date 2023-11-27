@@ -4,13 +4,14 @@
 	import { Game } from './game.svelte.js';
 	import GameButton from './GameButton.svelte';
 	import GameLostDisplay from './GameLostDisplay.svelte';
+	import { tick } from 'svelte';
 
 	const game = new Game();
 	let displayRef: CurrentGameDisplay;
 
 	function newGame() {
 		game.start();
-		displayRef.reset();
+		tick().then(displayRef.reset);
 	}
 </script>
 
