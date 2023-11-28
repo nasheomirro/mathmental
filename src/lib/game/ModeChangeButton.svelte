@@ -22,7 +22,7 @@
 	@use '$styles' as s;
 
 	.mode-btn {
-		width: 3.5rem;
+		width: 3rem;
 		border: none;
 		background-color: transparent;
 		cursor: pointer;

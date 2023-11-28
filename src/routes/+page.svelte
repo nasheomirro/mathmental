@@ -16,6 +16,7 @@
 <GameManager />
 
 <section class="container">
+	<div class="separator-line" />
 	<h1>What is this?</h1>
 	<p>
 		A game where you need to solve basic math questions that gets harder and harder until you answer
@@ -55,5 +56,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
+	}
+
+	.separator-line {
+		height: 1px;
+		width: 100%;
+		background-color: s.$default-surface;
+		margin-bottom: 3rem;
 	}
 </style>
