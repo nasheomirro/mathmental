@@ -1,10 +1,16 @@
 <script lang="ts">
+	import AudioToggle from '$lib/audio/AudioToggle.svelte';
+	import { AudioManager, setAudioManager } from '$lib/audio/index.svelte';
 	import GameManager from '$lib/game/GameManager.svelte';
 	import '$styles/init.scss';
+
+	const audioManager = new AudioManager();
+	setAudioManager(audioManager);
 </script>
 
 <nav class="nav">
 	<span class="logo">DoTheMath</span>
+	<AudioToggle />
 </nav>
 
 <GameManager />
@@ -31,6 +37,7 @@
 		max-width: 640px;
 		padding: 1rem;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 
 		.logo {

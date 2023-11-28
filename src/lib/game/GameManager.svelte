@@ -6,12 +6,13 @@
 	import GameInput from './GameInput.svelte';
 	import { tick } from 'svelte';
 	import { scale } from 'svelte/transition';
-	import { playAudio } from '$lib/audio';
 	import { modes } from './config';
 	import GameModeChange from './GameModeChange.svelte';
 	import ModeChangeButton from './ModeChangeButton.svelte';
 	import { HighScore } from './highscore.svelte';
+	import { getAudioManager } from '$lib/audio/index.svelte';
 
+	const audioManager = getAudioManager();
 	let highscore = new HighScore();
 
 	let mode = $state<Mode>(modes.rabbit);
@@ -27,7 +28,7 @@
 	$effect(() => highscore.changeScoreToMode(mode.key));
 
 	async function start() {
-		playAudio('start');
+		audioManager.playAudio('start');
 		gameState = 'playing';
 		score = 0;
 		newRound();
@@ -37,7 +38,7 @@
 
 	function submit() {
 		if (parseInt(answer) === round?.answer) {
-			playAudio('ping');
+			audioManager.playAudio('ping');
 			score += 1;
 			newRound();
 		} else {
@@ -46,7 +47,7 @@
 	}
 
 	function lose() {
-		playAudio('lose');
+		audioManager.playAudio('lose');
 		gameState = 'lost';
 		timeRemaining.set(0, { duration: 100 });
 		highscore.attemptBreak(mode.key, score);
