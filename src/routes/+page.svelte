@@ -25,7 +25,9 @@
 	</p>
 	<p>
 		The source code for the game is public on my github. Not that its any good anyways, its barely
-		hanging on by a string. But you can check it out here.
+		hanging on by a string. <a href="https://github.com/nasheomirro/mathmental"
+			>You can check it out here.</a
+		>
 	</p>
 </section>
 
@@ -48,7 +50,7 @@
 
 	.container {
 		max-width: 640px;
-		padding: 0 1rem 5rem;
+		padding: 0 1rem 3rem;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;

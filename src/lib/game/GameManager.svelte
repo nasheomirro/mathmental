@@ -37,7 +37,7 @@
 	}
 
 	function submit() {
-		if (parseInt(answer) === round?.answer) {
+		if (Math.abs(parseInt(answer)) === Math.abs(round?.answer || 0)) {
 			audioManager.playAudio('ping');
 			score += 1;
 			newRound();
