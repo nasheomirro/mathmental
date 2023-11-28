@@ -2,7 +2,6 @@
 	import { tweened } from 'svelte/motion';
 	import type { GameState, Mode, Round } from './types';
 	import { generateRound } from './utils';
-	import { highscore } from '$lib/highscore/index.svelte';
 	import GameButton from '$lib/game/GameButton.svelte';
 	import GameInput from './GameInput.svelte';
 	import { tick } from 'svelte';
@@ -11,6 +10,9 @@
 	import { modes } from './config';
 	import GameModeChange from './GameModeChange.svelte';
 	import ModeChangeButton from './ModeChangeButton.svelte';
+	import { HighScore } from './highscore.svelte';
+
+	let highscore = new HighScore();
 
 	let mode = $state<Mode>(modes.rabbit);
 	let gameState = $state<GameState>('idle');
@@ -21,6 +23,8 @@
 	const timeRemaining = tweened(1);
 	let lose_timeout: number | undefined;
 	let gameInput: GameInput;
+
+	$effect(() => highscore.changeScoreToMode(mode.key));
 
 	async function start() {
 		playAudio('start');
@@ -45,7 +49,7 @@
 		playAudio('lose');
 		gameState = 'lost';
 		timeRemaining.set(0, { duration: 100 });
-		highscore.attemptBreak(score);
+		highscore.attemptBreak(mode.key, score);
 		clearTimeout(lose_timeout);
 	}
 
@@ -62,10 +66,19 @@
 </script>
 
 <div class="container">
-	<p class="highscore">
-		<span>highscore: </span>
-		<span class="score-value">{highscore.current}</span>
-	</p>
+	<div class="top-bar">
+		<ModeChangeButton
+			{mode}
+			{gameState}
+			onclick={() => {
+				gameState = 'idle';
+			}}
+		/>
+		<p class="highscore">
+			<span>highscore: </span>
+			<span class="score-value">{highscore.current}</span>
+		</p>
+	</div>
 
 	{#if gameState === 'idle'}
 		<div class="start-display">
@@ -81,13 +94,6 @@
 
 	{#if gameState === 'playing' || gameState === 'lost'}
 		<div class="playing-display">
-			<ModeChangeButton
-				{mode}
-				{gameState}
-				onclick={() => {
-					gameState = 'idle';
-				}}
-			/>
 			<div class="timer" style={`transform: scaleX(${$timeRemaining})`} />
 			<span class="score">score: {score}</span>
 			<span class="question">{round?.question}</span>
@@ -102,7 +108,7 @@
 
 	{#if gameState === 'lost'}
 		<div class="lost-display">
-			{#if highscore.hasBrokHighscore}
+			{#if highscore.hasBrokeHighscore}
 				<p in:scale={{ delay: 100 }} class="highscore-alert">NEW HIGH SCORE!</p>
 			{/if}
 			<p class="explanation">the correct answer was {round?.answer}</p>
@@ -127,19 +133,25 @@
 		gap: 1.6rem;
 	}
 
-	.highscore {
-		position: absolute;
-		right: 0;
-		top: 0;
-		padding-top: 0.5rem;
+	.top-bar {
 		display: flex;
-		gap: 1rem;
+		justify-content: space-between;
 		align-items: center;
-		padding-right: 2rem;
+		position: absolute;
+		top: 0.5rem;
+		left: 0;
+		right: 0;
+		padding: 0 1.5rem;
 
-		.score-value {
-			font-weight: bold;
-			font-size: 1.25rem;
+		.highscore {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+
+			.score-value {
+				font-weight: bold;
+				font-size: 1.25rem;
+			}
 		}
 	}
 

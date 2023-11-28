@@ -1,5 +1,4 @@
 import type { ComponentType, SvelteComponent } from "svelte";
-import type { Component } from "svelte/compiler";
 
 export type GameState = 'idle' | 'playing' | 'lost';
 
@@ -10,7 +9,8 @@ export type Round = {
 
 export type Mode = {
   duration: number;
-	icon: ComponentType<SvelteComponent>
+	icon: ComponentType<SvelteComponent>,
+	key: string
 }
 
 

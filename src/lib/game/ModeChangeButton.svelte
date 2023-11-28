@@ -9,7 +9,12 @@
 	let { mode, gameState, ...rest } = $props<GetProps<HTMLButtonAttributes> & Props>();
 </script>
 
-<button class="mode-btn" disabled={gameState === 'playing'} {...rest}>
+<button
+	class="mode-btn"
+	class:hidden={gameState === 'idle'}
+	disabled={gameState === 'playing'}
+	{...rest}
+>
 	<svelte:component this={mode.icon} />
 </button>
 
@@ -21,14 +26,15 @@
 		border: none;
 		background-color: transparent;
 		cursor: pointer;
-		position: absolute;
-		top: 0.5rem;
-		left: 0.2rem;
-    transition: filter 200ms ease-in;
-
+		transition: filter 100ms ease-in;
+		
 		&:disabled {
 			filter: grayscale(100%);
 			cursor: not-allowed;
+		}
+
+		&.hidden {
+			visibility: hidden;
 		}
 	}
 </style>
