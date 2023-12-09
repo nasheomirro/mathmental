@@ -17,3 +17,9 @@ $breakpoints: (
 		@content;
 	}
 }
+
+@mixin dark() {
+	html[data-theme='dark'] & {
+		@content;
+	}
+}

@@ -1,6 +1,6 @@
-import pingUrl from './ping.wav';
-import loseUrl from './lose.wav';
-import startUrl from './start.mp3';
+import pingUrl from './audios/ping.wav';
+import loseUrl from './audios/lose.wav';
+import startUrl from './audios/start.mp3';
 import { getContext, setContext } from 'svelte';
 
 const audios = {

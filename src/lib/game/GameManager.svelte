@@ -10,7 +10,7 @@
 	import GameModeChange from './GameModeChange.svelte';
 	import ModeChangeButton from './ModeChangeButton.svelte';
 	import { HighScore } from './highscore.svelte';
-	import { getAudioManager } from '$lib/audio/index.svelte';
+	import { getAudioManager } from '$lib/misc/audio.svelte';
 
 	const audioManager = getAudioManager();
 	let highscore = new HighScore();
@@ -62,7 +62,7 @@
 		timeRemaining.set(1, { duration: 0 });
 		timeRemaining.set(0, { duration: mode.duration });
 
-		lose_timeout = setTimeout(lose, mode.duration);
+		lose_timeout = setTimeout(lose, mode.duration) as unknown as number;
 	}
 </script>
 

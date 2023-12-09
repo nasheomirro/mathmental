@@ -1,3 +1,5 @@
+@use 'tokens' as *;
+
 *,
 *::after,
 *::before {
@@ -6,6 +8,17 @@
 
 * {
 	margin: 0;
+}
+
+:root {
+	@include light-theme();
+}
+html[data-theme='dark'] {
+	@include dark-theme();
+
+	a {
+		color: $body-text-color;
+	}
 }
 
 body {
@@ -38,10 +51,16 @@ button,
 textarea,
 select {
 	font: inherit;
+	color: inherit;
 }
 
 html,
 body {
 	height: 100%;
 	scroll-behavior: smooth;
+}
+
+body {
+	background-color: $body-background-color;
+	color: $body-text-color;
 }

@@ -29,6 +29,7 @@
 		text-align: center;
 		border-radius: s.$radius;
 		border: 1px solid s.$default-primary;
+		background-color: s.$body-background-color;
 		padding: 0.25rem;
 
 		&:focus {

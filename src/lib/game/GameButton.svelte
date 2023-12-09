@@ -20,6 +20,7 @@
 		border-radius: s.$radius;
 		background-color: s.$default-primary;
 		border: none;
+		color: #000;
 		box-shadow: s.$shadow;
 		cursor: pointer;
 		transition: filter 200ms ease-in-out;

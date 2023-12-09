@@ -1,8 +1,28 @@
+$default-primary: var(--default-primary);
+$soft-primary: var(--soft-primary);
+$default-secondary: var(--default-secondary);
+$default-surface: var(--default-surface);
+$body-background-color: var(--body-background-color);
+$body-text-color: var(--body-text-color);
+
+$icon-width: 3rem;
+$shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
 $radius: 4px;
 
-$default-primary: #ff8fab;
-$soft-primary: #ffe5ec;
-$default-secondary: #800f2f;
-$default-surface: #e5e5e5;
+@mixin light-theme() {
+	--default-primary: #ff8fab;
+	--soft-primary: #ffe5ec;
+	--default-secondary: #800f2f;
+	--default-surface: #e5e5e5;
+	--body-background-color: #fff;
+	--body-text-color: #000;
+}
 
-$shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.1);
+@mixin dark-theme() {
+	--default-primary: #ff8fab;
+	--soft-primary: #fc81a273;
+	--default-secondary: #b3123f;
+	--default-surface: #383737;
+	--body-background-color: #110a1a;
+	--body-text-color: #eee;
+}

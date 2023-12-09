@@ -1,14 +1,14 @@
 <script lang="ts">
 	import AudioMute from '$lib/icons/AudioMute.svelte';
 	import AudioOn from '$lib/icons/AudioOn.svelte';
-	import { getAudioManager } from './index.svelte';
-  
-  const audioManager = getAudioManager();
-  const isMute = $derived(audioManager.isMute);
-  $effect(() => console.log(audioManager.isMute))
+	import { getAudioManager } from './audio.svelte';
+
+	const audioManager = getAudioManager();
+	const isMute = $derived(audioManager.isMute);
+	$effect(() => console.log(audioManager.isMute));
 </script>
 
-<button onclick={() => audioManager.toggleAudio()} class="audio-icon">
+<button onclick={() => audioManager.toggleAudio()} class="audio-button">
 	{#if isMute}
 		<AudioMute />
 	{:else}
@@ -17,8 +17,10 @@
 </button>
 
 <style lang="scss">
-	.audio-icon {
-		width: 3rem;
+	@use '$styles' as s;
+
+	.audio-button {
+		width: s.$icon-width;
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
