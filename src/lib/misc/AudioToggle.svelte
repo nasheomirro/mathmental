@@ -5,7 +5,6 @@
 
 	const audioManager = getAudioManager();
 	const isMute = $derived(audioManager.isMute);
-	$effect(() => console.log(audioManager.isMute));
 </script>
 
 <button onclick={() => audioManager.toggleAudio()} class="audio-button">

@@ -3,11 +3,22 @@ type Theme = 'light' | 'dark';
 const storageKey = 'theme-manager';
 
 export class ThemeManager {
-	theme: Theme = $state(getSavedTheme());
+	theme: Theme = $state('light');
+
+	constructor() {
+		this.theme = getSavedTheme();
+		this.setTheme(this.theme);
+	}
 
 	toggleTheme() {
-		this.theme = this.theme === 'light' ? 'dark' : 'light';
+		const newTheme = this.theme === 'light' ? 'dark' : 'light';
+		this.setTheme(newTheme);
+	}
+
+	setTheme(theme: Theme) {
+		this.theme = theme;
 		if (document) {
+			localStorage.setItem(storageKey, this.theme);
 			document.querySelector('html')?.setAttribute('data-theme', this.theme);
 		}
 	}
